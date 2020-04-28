@@ -26,9 +26,9 @@ fun createPartials(pattern: String): Array<Int> {
 
     while (i < pattern.length) {
         when {
-            pattern[i] == pattern[m] ->
+            (pattern[i] == pattern[m]) ->
                 table[i++] = ++m // 'i' postfix increment intentional
-            m != 0 ->
+            (m != 0) ->
                 m = table[m-1]
             else ->
                 table[i++] = 0
@@ -51,6 +51,7 @@ fun main(args: Array<String>) {
     val sample = samples[1]
     val table = createPartials(sample)
 
+    println(sample)
     for (i in table)
-        println(i)
+        print(i)
 }
