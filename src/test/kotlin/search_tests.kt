@@ -38,12 +38,7 @@ class searchTests {
     fun emptyTextTest() {
         val pattern = "ABA"
         val text = ""
-        var matches: Array<Int> = arrayOf(1)
-
-        //Printing out runtime for my KMP algorithm implementation
-        println("Runtime(ms) emptyText: " + measureTimeMillis {
-            matches = kmp(pattern, text)
-        })
+        var matches: Array<Int> = kmp(pattern, text)
 
         assert(matches.isEmpty())
     }
@@ -52,11 +47,7 @@ class searchTests {
     fun emptyPatternTest() {
         val pattern = ""
         val text = "Hello world"
-        var matches: Array<Int> = arrayOf(1)
-
-        println("Runtime(ms) emptyPattern: " + measureTimeMillis {
-            matches = kmp(pattern, text)
-        })
+        var matches: Array<Int> = kmp(pattern, text)
 
         assert(matches.isEmpty())
     }
@@ -66,12 +57,8 @@ class searchTests {
         val pattern = "aba"
         val text = "abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" +
                 "bbbbbbbbbbbbbbbababbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-        var matches = Array(0) {_ -> 0}
+        var matches = kmp(pattern, text)
         val correctMatches: Array<Int> = arrayOf(80)
-
-        println("Runtime(ms) smallPatternLargeText: " + measureTimeMillis {
-            matches = kmp(pattern, text)
-        })
 
         Assertions.assertArrayEquals(matches, correctMatches)
     }
@@ -80,12 +67,8 @@ class searchTests {
     fun multiplePatternsTest() {
         val pattern = "aba"
         val text = "abababababababababa"
-        var matches = Array(0) {_ -> 0}
+        var matches = kmp(pattern, text)
         val correctMatches: Array<Int> = arrayOf(0,2,4,6,8,10,12,14,16)
-
-        println("Runtime(ms) multiplePatterns: " + measureTimeMillis {
-            matches = kmp(pattern, text)
-        })
 
         Assertions.assertArrayEquals(matches, correctMatches)
     }
@@ -94,12 +77,8 @@ class searchTests {
     fun closeSizedPatternAndTextTest() {
         val pattern = "123456789a"
         val text = "a123456789a"
-        var matches = Array(0) {_ -> 0}
+        var matches = kmp(pattern, text)
         val correctMatches: Array<Int> = arrayOf(1)
-
-        println("Runtime(ms) closeSizedPatternAndText: " + measureTimeMillis {
-            matches = kmp(pattern, text)
-        })
 
         Assertions.assertArrayEquals(matches, correctMatches)
     }
@@ -108,12 +87,8 @@ class searchTests {
     fun samePatternAsTextTest() {
         val pattern = "123456789"
         val text = "123456789"
-        var matches = Array(0) {_ -> 0}
+        var matches = kmp(pattern, text)
         val correctMatches: Array<Int> = arrayOf(0)
-
-        println("Runtime(ms) samePatternAsText: " + measureTimeMillis {
-            matches = kmp(pattern, text)
-        })
 
         Assertions.assertArrayEquals(matches, correctMatches)
     }
@@ -122,11 +97,7 @@ class searchTests {
     fun patternLargerThanTextTest() {
         val pattern = "aaaaaaaaaaaaaaaaaaaaa"
         val text = "aaaaaaaaa"
-        var matches = Array(1) {_ -> 0}
-
-        println("Runtime(ms) patternLargerThanText: " + measureTimeMillis {
-            matches = kmp(pattern, text)
-        })
+        var matches = kmp(pattern, text)
 
         assert(matches.isEmpty())
     }
@@ -135,11 +106,7 @@ class searchTests {
     fun patternNotInTextTest() {
         val pattern = "bbb"
         val text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        var matches = Array(1) {_ -> 0}
-
-        println("Runtime(ms) patternNotInText: " + measureTimeMillis {
-            matches = kmp(pattern, text)
-        })
+        var matches = kmp(pattern, text)
 
         assert(matches.isEmpty())
     }
