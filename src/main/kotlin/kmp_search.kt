@@ -44,7 +44,33 @@ Uses a partial match table to determine when we can skip comparisons.
     | Outputs: Array of indices where matches are found,
                who's len == number of matches found.
 */
-fun kmp(pattern: String, text: String) {
+fun kmp(pattern: String, text: String): Array<Int> {
+    val matches = MutableList<Int>(0) {_ -> 0}
+    val pmt = createPartials(pattern) // Partial Match Table tells us where to continue
+                                      // comparisons from (new pattern index to look at)
+    var i = 0 // pattern counter
+    var j = 0 // text counter
+
+    if (pattern.isEmpty() || text.isEmpty())
+        return matches.toTypedArray() // Return empty Array<Int>
+
+    while (j < text.length) {
+        if (pattern[i] == text[j]) {
+            ++i
+            ++j
+            if (i == pattern.length) {
+                matches.add(j-i) // Add index this match was found at to the list's end
+                i = pmt[i-1] // -1 because we need the spot before incrementing
+            }
+        } else {
+            if (i > 0)
+                i = pmt[i-1]
+            else // can't skip anything if no portion of the pattern has matched yet.
+                ++j
+        }
+    }
+
+    return matches.toTypedArray()
 }
 
 fun main(args: Array<String>) {
