@@ -1,16 +1,9 @@
+import kotlin.random.Random
+import kotlin.system.measureTimeMillis
+
 // kmp_search.kt
 // This file holds the implementation for the Knuth-Morris-Pratt
 // String search algorithm.
-
-/*
-Temporary literal string array for testing during implementation.
-*/
-val samples: Array<String> = arrayOf(
-    "Hello this is a test",
-    "ababaca",
-    "acabacacd",
-    "aaaaaaaaaaaaaaaaaaaaaaaaaaaab"
-)
 
 /*
 Creates a partial match table for use in kmp.
@@ -74,10 +67,24 @@ fun kmp(pattern: String, text: String): Array<Int> {
 }
 
 fun main(args: Array<String>) {
-    val sample = samples[1]
-    val table = createPartials(sample)
+    val pattern = "ab"
+    var text = ""
+    var envVar: String = System.getenv("N") ?: "100000"
 
-    println(sample)
-    for (i in table)
-        print(i)
+    var matches = Array(0) {_ -> 0}
+    for (i in 1..10000) {
+        // fill with random val's ascii: a -> z
+        text += Random.nextInt(97, 122).toChar()
+    }
+
+    println("N = $envVar")
+
+    println("Runtime(ms): " + measureTimeMillis {
+        matches = kmp(pattern, text)
+    })
+
+    println("Matches: ")
+    for (match in matches) {
+        print("$match, ")
+    }
 }
