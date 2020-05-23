@@ -5,6 +5,7 @@ version = "1.0-SNAPSHOT"
 
 plugins {
     kotlin("jvm") version "1.3.72"
+    java
     application
 }
 
@@ -23,6 +24,9 @@ repositories {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
 
 val compileKotlin: KotlinCompile by tasks

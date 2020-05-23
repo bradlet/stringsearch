@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import kotlin.system.measureTimeMillis
 
 
 // I clumped all tests for both algorithms into the same test suite so that
