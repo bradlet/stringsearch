@@ -15,7 +15,7 @@ dependencies {
 }
 
 application {
-    mainClassName = "Kmp_searchKt"
+    mainClassName = "SearchSuiteKt"
 }
 
 repositories {
