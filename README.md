@@ -18,3 +18,7 @@ To run the main program, type:
 
 To run unit tests:
 > gradle clean test
+
+You can manipulate the size of the test sets with environment
+variables. To do so, type "N=___" before "gradle run". For example:
+> N=150000 gradle run
