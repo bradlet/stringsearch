@@ -22,7 +22,7 @@ fun runTest(searchFn: (String, String) -> Array<Int>, setSize: Int, pattern: Str
 fun main(args: Array<String>) {
     val textSetSize: Int = Integer.parseInt(System.getenv("N") ?: "10000")
     val pattern = "ab"
-    println("N = $textSetSize")
 
+    println("Running Knuth-Morris-Pratt search (target = $pattern) on set of size $textSetSize.")
     runTest(::kmp, textSetSize, pattern)
 }
