@@ -1,6 +1,8 @@
 import kotlin.random.Random
 import kotlin.system.measureTimeMillis
 
+var verbose: Boolean = false
+
 fun runTest(searchFn: (String, String) -> Array<Int>, setSize: Int, pattern: String) {
     var matches = Array(0) {_ -> 0}
     var text = ""
@@ -13,33 +15,26 @@ fun runTest(searchFn: (String, String) -> Array<Int>, setSize: Int, pattern: Str
         matches = searchFn(pattern, text)
     })
 
-    println("Matches: ")
-    for (match in matches) {
-        print("$match, ")
+    if (verbose) {
+        println("Matches: ")
+        for (match in matches) print("$match, ")
+        println() // Extra space for formatting
     }
 }
 
 fun main(args: Array<String>) {
-    val textSetSize: Int = Integer.parseInt(System.getenv("N") ?: "10000")
-    val largeTextSetSize = 5 * textSetSize
-    val veryLargeTextSetSize = 10 * textSetSize
-    val pattern = System.getenv("PATTERN") ?: "ab"
+    val textSetSize: Int = Integer.parseInt(System.getenv("N") ?: "50000")
+    val numTestRuns: Int = Integer.parseInt(System.getenv("x") ?: "1")
+    val pattern: String = System.getenv("PATTERN") ?: "aba"
+    verbose = (System.getenv("verbose") ?: "false").toBoolean()
 
-    println("Running Knuth-Morris-Pratt search (target = $pattern) on set of size $textSetSize.")
-    runTest(::kmp, textSetSize, pattern)
+    for (i in 1 until numTestRuns) {
+        println("Running Knuth-Morris-Pratt search (target = $pattern) on set of size $textSetSize.")
+        runTest(::kmp, textSetSize, pattern)
+    }
 
-    println("Running Knuth-Morris-Pratt search (target = $pattern) on set of size $largeTextSetSize.")
-    runTest(::kmp, largeTextSetSize, pattern)
-
-    println("Running Knuth-Morris-Pratt search (target = $pattern) on set of size $veryLargeTextSetSize.")
-    runTest(::kmp, veryLargeTextSetSize, pattern)
-
-    println("Running Boyer-Moore search (target = $pattern) on set of size $textSetSize.")
-    runTest(::bm, textSetSize, pattern)
-
-    println("Running Boyer-Moore search (target = $pattern) on set of size $largeTextSetSize.")
-    runTest(::bm, largeTextSetSize, pattern)
-
-    println("Running Boyer-Moore search (target = $pattern) on set of size $veryLargeTextSetSize.")
-    runTest(::bm, veryLargeTextSetSize, pattern)
+    for (i in 1 until numTestRuns) {
+        println("Running Boyer-Moore search (target = $pattern) on set of size $textSetSize.")
+        runTest(::bm, textSetSize, pattern)
+    }
 }
