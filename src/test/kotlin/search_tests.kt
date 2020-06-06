@@ -124,21 +124,21 @@ class searchTests {
     fun emptyTextBMTest() {
         val pattern = "aba"
         val text = ""
-        assert(bm(pattern, text) == -1)
+        assert(bm(pattern, text).isEmpty())
     }
 
     @Test
     fun emptyPatternBMTest() {
         val pattern = ""
         val text = "Hello world"
-        assert(bm(pattern, text) == -1)
+        assert(bm(pattern, text).isEmpty())
     }
 
     @Test
     fun multiplePatternsBMTest() {
         val pattern = "aba"
         val text = "aaababababababababa"
-        assert(bm(pattern, text) == 2)
+        assert(bm(pattern, text)[0] == 2)
     }
 
     @Test
@@ -146,13 +146,13 @@ class searchTests {
         val pattern = "aaaaaaaaaaaaaaaaaaaaa"
         val text = "aaaaaaaaa"
 
-        assert(bm(pattern ,text) == -1)
+        assert(bm(pattern ,text).isEmpty())
     }
 
     @Test
     fun patternNotInTextBMTest() {
         val pattern = "bbb"
         val text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        assert(bm(pattern ,text) == -1)
+        assert(bm(pattern ,text).isEmpty())
     }
 }
