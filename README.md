@@ -22,3 +22,16 @@ To run unit tests:
 You can manipulate the size of the test sets with environment
 variables. To do so, type "N=___" before "gradle run". For example:
 > N=150000 gradle run
+
+Other environment variables available to alter runtime behavior:  
+
+'pattern' -- the pattern you'd like to search for.  
+**Note**: test set is randomly generated, so 
+complex patterns may be unlikely to appear.
+> Values: Any non-empty string
+
+'x' -- number of times to run the tests.
+> Values: Any positive integer
+
+'verbose' -- add text to print all matches found.
+> Values: 'true', or 'false'
