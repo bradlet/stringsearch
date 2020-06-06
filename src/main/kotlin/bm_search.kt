@@ -37,11 +37,11 @@ Uses what we know about the pattern to avoid unnecessary comparisons.
     | Inputs: 'text' to be searched, 'pattern' to be searched for.
     | Outputs: Index of the first substring of the text that matches the pattern.
 */
-fun bm(pattern: String, text: String): Int{
+fun bm(pattern: String, text: String): Array<Int>{
     val table = buildTable(pattern)
 
     if (pattern.isEmpty())
-        return -1
+        return Array(0) {_ -> 0}
 
     // Start comparisons at end of pattern, compare backwards.
     var i = pattern.length-1
@@ -50,7 +50,7 @@ fun bm(pattern: String, text: String): Int{
     while (i < text.length) {
         if (text[i] == pattern[j]) {
             if (j == 0)     // We have compared all chars in pattern...
-                return i    // So, this is a match.
+                return Array(1){_ -> i}    // So, this is a match.
             i -= 1
             j -= 1
         }
@@ -60,5 +60,5 @@ fun bm(pattern: String, text: String): Int{
         }
     }
 
-    return -1 // If we get here, no match was found.
+    return Array(0) {_ -> 0} // If we get here, no match was found.
 }
