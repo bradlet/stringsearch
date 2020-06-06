@@ -9,7 +9,6 @@ class searchTests {
     @Test
     fun contextLoadsTest() {}
 
-
     /* Knuth-Morris-Pratt Algorithm Tests */
 
     @Test
@@ -111,4 +110,49 @@ class searchTests {
     }
 
     /* Boyer-Moore Algorithm Tests */
+
+    @Test
+    fun buildTableCorrectInitTest() {
+        val pattern = "abcabcaa"
+        val table = buildTable(pattern)
+
+        assert(table[0] == 7)
+        assert(table[1] == 4)
+        assert(table[2] == 5)
+    }
+    @Test
+    fun emptyTextBMTest() {
+        val pattern = "aba"
+        val text = ""
+        assert(bm(pattern, text) == -1)
+    }
+
+    @Test
+    fun emptyPatternBMTest() {
+        val pattern = ""
+        val text = "Hello world"
+        assert(bm(pattern, text) == -1)
+    }
+
+    @Test
+    fun multiplePatternsBMTest() {
+        val pattern = "aba"
+        val text = "aaababababababababa"
+        assert(bm(pattern, text) == 2)
+    }
+
+    @Test
+    fun patternLargerThanTextBMTest() {
+        val pattern = "aaaaaaaaaaaaaaaaaaaaa"
+        val text = "aaaaaaaaa"
+
+        assert(bm(pattern ,text) == -1)
+    }
+
+    @Test
+    fun patternNotInTextBMTest() {
+        val pattern = "bbb"
+        val text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        assert(bm(pattern ,text) == -1)
+    }
 }
