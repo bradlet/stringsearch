@@ -56,7 +56,7 @@ fun main(args: Array<String>) {
     var runTimeSum: Long = 0
 
     var textList = Array<Char>(textSetSize)
-        {_ -> Random.nextInt(97, 122).toChar()}
+        {_ -> Random.nextInt(alphabet_start, alphabet_end).toChar()}
     var text = textList.joinToString(separator = "")
 
     println("Running Knuth-Morris-Pratt search (target = $pattern) $numTestRuns times " +
