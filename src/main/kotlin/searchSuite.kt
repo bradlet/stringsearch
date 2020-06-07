@@ -3,21 +3,31 @@ import kotlin.system.measureNanoTime
 
 var verbose: Boolean = false
 
-fun runTest(searchFn: (String, String) -> Array<Int>, pattern: String, text: String) {
+fun runTest(searchFn: (String, String) -> Array<Int>, pattern: String, text: String): Long {
     var matches = Array(0) {_ -> 0}
 
     val runtime = measureNanoTime {
         matches = searchFn(pattern, text)
     }
 
-    println("Runtime: " + runtime/1000000 + "(ms), " + runtime/1000 + "(us), " +
-             runtime + "(ns)")
-
     if (verbose) {
-        println("Matches: ")
-        for (match in matches) print("$match, ")
-        println() // Extra space for formatting
+        println("Runtime: " + runtime/1000000 + "(ms), " + runtime/1000 + "(us), " +
+                runtime + "(ns)")
+
+        // TOO MUCH VERBOSE
+        //  println("Matches: ")
+        //  for (match in matches) print("$match, ")
+        //  println() // Extra space for formatting
     }
+    return runtime
+}
+
+fun printRunTimes(runTimeSum: Long, numTestRuns: Int) {
+    var runTimeAvg: Long = 0
+
+    runTimeAvg = runTimeSum / numTestRuns
+    println("Avg. runtime over $numTestRuns: " + runTimeAvg/1000000 + "(ms), " +
+            runTimeAvg/1000 + "(us), " + runTimeAvg + "(ns).")
 }
 
 fun main(args: Array<String>) {
@@ -26,19 +36,24 @@ fun main(args: Array<String>) {
     val pattern: String = System.getenv("PATTERN") ?: "aba"
     verbose = (System.getenv("verbose") ?: "false").toBoolean()
 
+    var runTimeSum: Long = 0
     var text = ""
+
+    // Create the string we'll search through
     for (i in 0 until textSetSize) {
         // fill with random val's ascii: a -> z
         text += Random.nextInt(97, 122).toChar()
     }
 
-    for (i in 0 until numTestRuns) {
-        println("Running Knuth-Morris-Pratt search (target = $pattern) on set of size $textSetSize.")
-        runTest(::kmp, pattern, text)
-    }
+    println("Running Knuth-Morris-Pratt search (target = $pattern) $numTestRuns times " +
+            "on set of size $textSetSize.")
+    for (i in 0 until numTestRuns) runTimeSum += runTest(::kmp, pattern, text)
+    printRunTimes(runTimeSum, numTestRuns)
+    runTimeSum = 0
 
-    for (i in 0 until numTestRuns) {
-        println("Running Boyer-Moore search (target = $pattern) on set of size $textSetSize.")
-        runTest(::bm, pattern, text)
-    }
+    println("Running Boyer-Moore search (target = $pattern) $numTestRuns times " +
+            "on set of size $textSetSize.")
+    for (i in 0 until numTestRuns) runTimeSum += runTest(::bm, pattern, text)
+    printRunTimes(runTimeSum, numTestRuns)
+
 }
