@@ -1,3 +1,4 @@
+import kotlin.random.Random
 import kotlin.system.measureNanoTime
 
 var verbose: Boolean = false
@@ -22,13 +23,13 @@ fun runTest(searchFn: (String, String) -> Array<Int>, pattern: String, text: Str
 }
 
 fun printRunTimes(runTimeSum: Long, numTestRuns: Int) {
-    var runTimeAvg: Long = 0
-
-    runTimeAvg = runTimeSum / numTestRuns
+    var runTimeAvg: Long = runTimeSum / numTestRuns
     println("Avg. runtime over $numTestRuns: " + runTimeAvg/1000000 + "(ms), " +
             runTimeAvg/1000 + "(us), " + runTimeAvg + "(ns).")
 }
 
+// Hard-coding only in this function basically... Just a place for me to try and force
+// runtime situations
 fun specificTestAttemptWorstCase() {
     val pattern = "aaaaaaaaab"
     val size = 10000000
@@ -37,15 +38,7 @@ fun specificTestAttemptWorstCase() {
     textList[size-1] = 'b'
     var text = textList.joinToString(separator = "")
 
-    /*
-    Originally used string concatenation....
-    "Trying loop unrolling because it takes so long to make giant strings"
-    var a = "aaaaaaaaaaaaaaaaaaaaaaaaa" //25 a's
-    for (i in 0 until 2) a += a //Should now have 100 a's
-
-    for (i in 0 until size/100) text += a
-    text += "b"
-    */
+    println("\nCRAFTED TEST CASE")
 
     println("Runtime for KMP in specific case:")
     printRunTimes(runTest(::kmp, pattern, text), 1)
@@ -59,15 +52,12 @@ fun main(args: Array<String>) {
     val numTestRuns: Int = Integer.parseInt(System.getenv("x") ?: "1")
     val pattern: String = System.getenv("PATTERN") ?: "aba"
     verbose = (System.getenv("verbose") ?: "false").toBoolean()
-/*
-    var runTimeSum: Long = 0
-    var text = ""
 
-    // Create the string we'll search through
-    for (i in 0 until textSetSize) {
-        // fill with random val's ascii: a -> z
-        text += Random.nextInt(97, 122).toChar()
-    }
+    var runTimeSum: Long = 0
+
+    var textList = Array<Char>(textSetSize)
+        {_ -> Random.nextInt(97, 122).toChar()}
+    var text = textList.joinToString(separator = "")
 
     println("Running Knuth-Morris-Pratt search (target = $pattern) $numTestRuns times " +
             "on set of size $textSetSize.")
@@ -79,6 +69,6 @@ fun main(args: Array<String>) {
             "on set of size $textSetSize.")
     for (i in 0 until numTestRuns) runTimeSum += runTest(::bm, pattern, text)
     printRunTimes(runTimeSum, numTestRuns)
-*/
+
     specificTestAttemptWorstCase()
 }
