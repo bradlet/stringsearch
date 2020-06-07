@@ -1,14 +1,17 @@
 import kotlin.random.Random
-import kotlin.system.measureTimeMillis
+import kotlin.system.measureNanoTime
 
 var verbose: Boolean = false
 
 fun runTest(searchFn: (String, String) -> Array<Int>, pattern: String, text: String) {
     var matches = Array(0) {_ -> 0}
 
-    println("Runtime(ms): " + measureTimeMillis {
+    val runtime = measureNanoTime {
         matches = searchFn(pattern, text)
-    })
+    }
+
+    println("Runtime: " + runtime/1000000 + "(ms), " + runtime/1000 + "(us), " +
+             runtime + "(ns)")
 
     if (verbose) {
         println("Matches: ")
