@@ -30,6 +30,21 @@ fun printRunTimes(runTimeSum: Long, numTestRuns: Int) {
             runTimeAvg/1000 + "(us), " + runTimeAvg + "(ns).")
 }
 
+fun specificTestAttemptWorstCase() {
+    val pattern = "aaaaaaaaab"
+    val size = 10000000
+    var text = ""
+
+    for (i in 1 until size) text += "a"
+    text += "b"
+
+    println("Runtime for KMP in specific case:")
+    printRunTimes(runTest(::kmp, pattern, text), 1)
+
+    println("Runtime for BM in specific case:")
+    printRunTimes(runTest(::bm, pattern, text), 1)
+}
+
 fun main(args: Array<String>) {
     val textSetSize: Int = Integer.parseInt(System.getenv("N") ?: "100000")
     val numTestRuns: Int = Integer.parseInt(System.getenv("x") ?: "1")
@@ -56,4 +71,5 @@ fun main(args: Array<String>) {
     for (i in 0 until numTestRuns) runTimeSum += runTest(::bm, pattern, text)
     printRunTimes(runTimeSum, numTestRuns)
 
+    //specificTestAttemptWorstCase()
 }
